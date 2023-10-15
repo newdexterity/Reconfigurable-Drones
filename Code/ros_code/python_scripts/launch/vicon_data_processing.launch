@@ -1,0 +1,27 @@
+<launch>
+ 
+    <!-- Convert Vicon data of modules to odometry -->
+    <node name="vicon_to_odom_module1" pkg="python_scripts" type="vicon_to_odom.py">
+        <param name="module_name" value="module_1" />
+    </node>
+
+    <node name="vicon_to_odom_module2" pkg="python_scripts" type="vicon_to_odom.py">
+        <param name="module_name" value="module_2" />
+    </node>
+
+    <node name="vicon_to_odom_module3" pkg="python_scripts" type="vicon_to_odom.py">
+        <param name="module_name" value="module_3" />
+    </node>
+
+    <node name="vicon_to_odom_module4" pkg="python_scripts" type="vicon_to_odom.py">
+        <param name="module_name" value="module_4" />
+    </node>
+
+    <!-- Convert Vicon data of all objects (obstacles) to a point cloud -->
+    <node name="vicon_to_pointcloud_node" pkg="python_scripts" type="vicon_to_pointcloud.py" output="screen">
+        <param name="update_frequency" value="1" />
+    </node>
+
+    
+ 
+</launch>

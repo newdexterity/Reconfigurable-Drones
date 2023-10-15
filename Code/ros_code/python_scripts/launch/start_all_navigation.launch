@@ -1,0 +1,16 @@
+<launch>
+    <!-- Include the Navigation launch for each module -->
+    <include file="$(find python_scripts)/launch/navigation.launch">
+        <arg name="module_name" value="module_1" />
+    </include>
+    <include file="$(find python_scripts)/launch/navigation.launch">
+        <arg name="module_name" value="module_2" />
+    </include>
+    <include file="$(find python_scripts)/launch/navigation.launch">
+        <arg name="module_name" value="module_3" />
+    </include>
+    <include file="$(find python_scripts)/launch/navigation.launch">
+        <arg name="module_name" value="module_4" />
+    </include>
+     
+</launch>

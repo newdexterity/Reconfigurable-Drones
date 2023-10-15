@@ -1,0 +1,3 @@
+<launch>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find python_scripts)/config/world_map/white_map.yaml" />
+</launch>

@@ -1,0 +1,6 @@
+image: white_map.pgm
+resolution: 0.025  # Each pixel is 0.1m x 0.1m
+origin: [-5, -5, 0.0]  # Center the 10x10m map around the origin
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196

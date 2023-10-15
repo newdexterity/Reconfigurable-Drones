@@ -1,0 +1,13 @@
+<launch>
+    <include file="$(find python_scripts)/launch/map_server_start.launch"/>
+    
+    <include file="$(find vicon_bridge)/launch/vicon.launch" />
+
+    <node pkg="tf" type="static_transform_publisher" name="world_to_map_broadcaster" args="0 0 0 0 0 0 vicon/world map 100" />
+    
+    <include file="$(find python_scripts)/launch/visualization.launch" />
+
+    <include file="$(find python_scripts)/launch/vicon_data_processing.launch" />
+    <node pkg="python_scripts" type="wifi_communication.py" name="wifi_communication" output="screen" />
+    
+</launch>

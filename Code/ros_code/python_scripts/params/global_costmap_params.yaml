@@ -1,0 +1,27 @@
+global_costmap:
+  global_frame: vicon/world  # This is typically a fixed frame for the global costmap
+  # robot_base_frame: base_link  # This will be the robot's primary reference frame
+  update_frequency: 1.0
+  rolling_window: true
+  width: 10.0
+  height: 10.0
+  origin_x: -5
+  origin_y: -5
+  resolution: 0.025
+  # origin: [-5.0, -5.0, 0.0]  # Center the 10x10m map around the origin
+
+  plugins:
+    - {name: obstacle_layer, type: "costmap_2d::ObstacleLayer"}
+    - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
+
+
+  inflation_layer:
+    inflation_radius: 0.4
+
+  map_type: costmap
+  transform_tolerance: 0.5  # time (in seconds) to wait for transform data
+  obstacle_range: 10  # max distance to add obstacles to local costmap
+  # raytrace_range: 3.0  # max distance to raytrace out obstacles from local costmap
+  robot_radius: 0.25 # radius of robot in meters, used for footprint modeling
+  footprint: [[0.175, 0], [0.124, 0.124], [0, 0.175], [-0.124, 0.124], [-0.175, 0], [-0.124, -0.124], [0, -0.175], [0.124, -0.124]]
+  footprint_padding: 0.01

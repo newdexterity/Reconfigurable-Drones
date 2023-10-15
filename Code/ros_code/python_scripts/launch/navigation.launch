@@ -1,0 +1,51 @@
+<launch>
+
+    <!-- Define a function to generate the move_base configuration for each module -->
+    <arg name="module_name" />
+    <group ns="$(arg module_name)">
+        <node name="move_base_$(arg module_name)" pkg="move_base" type="move_base" respawn="false" output="screen">
+            
+            <!-- Load parameters from the YAML files -->
+            <rosparam file="$(find python_scripts)/params/costmap_common_params.yaml" command="load" />
+            <rosparam file="$(find python_scripts)/params/base_local_planner_params.yaml" command="load" />
+
+            <!-- Global costmap dynamic parameters -->
+            <rosparam file="$(find python_scripts)/params/global_costmap_params.yaml" command="load"/>
+            <param name="global_costmap/obstacle_layer/observation_sources" value="$(arg module_name)_obstacles"/>
+            <param name="global_costmap/obstacle_layer/$(arg module_name)_obstacles/data_type" value="PointCloud2"/>
+            <param name="global_costmap/obstacle_layer/$(arg module_name)_obstacles/topic" value="/$(arg module_name)/obstacles"/>
+            <param name="global_costmap/obstacle_layer/$(arg module_name)_obstacles/marking" value="true"/>
+            <param name="global_costmap/obstacle_layer/$(arg module_name)_obstacles/clearing" value="true"/>
+            
+            <!-- Local costmap dynamic parameters -->
+            <rosparam file="$(find python_scripts)/params/local_costmap_params.yaml" command="load"/>
+            <param name="local_costmap/obstacle_layer/observation_sources" value="$(arg module_name)_obstacles"/>
+            <param name="local_costmap/obstacle_layer/$(arg module_name)_obstacles/data_type" value="PointCloud2"/>
+            <param name="local_costmap/obstacle_layer/$(arg module_name)_obstacles/topic" value="/$(arg module_name)/obstacles"/>
+            <param name="local_costmap/obstacle_layer/$(arg module_name)_obstacles/marking" value="true"/>
+            <param name="local_costmap/obstacle_layer/$(arg module_name)_obstacles/clearing" value="true"/>
+            
+            <!-- Dynamically set the robot_base_frame -->
+            <param name="local_costmap/robot_base_frame" value="vicon/$(arg module_name)/$(arg module_name)" />
+            <param name="global_costmap/robot_base_frame" value="vicon/$(arg module_name)/$(arg module_name)" />
+            
+            <!-- Remap cmd_vel topic to desired namespace -->
+            <remap from="cmd_vel" to="/$(arg module_name)/cmd_vel"/>
+            <remap from="/odom" to="/$(arg module_name)/odom"/>
+            
+            <!-- disable recovery behaviors -->
+            <rosparam param="recovery_behaviors">[]</rosparam>
+
+            <param name="controller_frequency" value="10.0"/>
+            <param name="controller_patience" value="10.0"/>
+
+        </node>
+
+        <!-- Set the goal for the module to the payload_box's position -->
+        <node name="set_goal_$(arg module_name)" pkg="python_scripts" type="set_goal_to_payload_box.py">
+            <param name="module_name" value="$(arg module_name)" />
+        </node>
+
+    </group>
+    
+</launch>
